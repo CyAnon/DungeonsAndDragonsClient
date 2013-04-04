@@ -1,24 +1,28 @@
 package com.cyanon.danddclient;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
+import java.io.*;
+import java.net.*;
 
-import com.cyanon.dandd.attacktype.Attack;
-import com.cyanon.dandd.attacktype.element.Element;
+import com.cyanon.dandd.attacktype.*;
 
 public class GameClient {
 
 	private Attack test;
+	
 	public Socket socket;
 	private ObjectOutputStream oos;
 	private ObjectInputStream ois;
+	
+	private InputStreamReader isr;
+	private BufferedReader br;
 	
 	private String thisPlayersHandle;
 	
 	public GameClient(Socket socket) {
 		this.socket = socket;
+		this.isr = new InputStreamReader(System.in);
+		this.br = new BufferedReader(isr);
+		
 		try
 		{
 			this.oos = new ObjectOutputStream(socket.getOutputStream());
@@ -44,5 +48,11 @@ public class GameClient {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void setUpPlayer() throws IOException
+	{
+		this.thisPlayersHandle = br.readLine();
+		oos.writeObject(new String(this.thisPlayersHandle));
 	}
 }

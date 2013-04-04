@@ -34,6 +34,7 @@ public class DungeonsAndDragonsClient {
 		}
 		
 		gameClient = new GameClient(s);
+		gameClient.setUpPlayer();
 		gameClient.writeToSocket();
 	}
 }
