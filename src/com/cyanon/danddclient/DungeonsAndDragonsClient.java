@@ -17,7 +17,7 @@ public class DungeonsAndDragonsClient {
 	{
 	}
 	
-	public static void main(String[] argv) throws IOException, InterruptedException
+	public static void main(String[] argv) throws IOException, InterruptedException, ClassNotFoundException
 	{
 		try
 		{
@@ -34,7 +34,5 @@ public class DungeonsAndDragonsClient {
 		}
 		
 		gameClient = new GameClient(s);
-		gameClient.setUpPlayer();
-		gameClient.writeToSocket();
 	}
 }

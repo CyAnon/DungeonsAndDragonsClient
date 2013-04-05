@@ -17,8 +17,9 @@ public class GameClient {
 	private BufferedReader br;
 	
 	private String thisPlayersHandle;
+	private String thisGameName;
 	
-	public GameClient(Socket socket) {
+	public GameClient(Socket socket) throws ClassNotFoundException, IOException {
 		this.socket = socket;
 		this.isr = new InputStreamReader(System.in);
 		this.br = new BufferedReader(isr);
@@ -26,15 +27,17 @@ public class GameClient {
 		try
 		{
 			this.oos = new ObjectOutputStream(socket.getOutputStream());
-			oos.flush();
 			this.ois = new ObjectInputStream(socket.getInputStream());
+			oos.flush();
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
 		
-		System.out.println("Connection and setup of TCP streams successful!");
+		this.thisGameName = (String)ois.readObject();
+		oos.flush();
+		System.out.println("Connected to the game " + this.thisGameName + " successfully!");
 	}
 	
 	public void writeToSocket() throws IOException, InterruptedException
