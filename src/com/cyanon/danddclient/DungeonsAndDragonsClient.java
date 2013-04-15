@@ -13,15 +13,28 @@ public class DungeonsAndDragonsClient {
 	protected static OutputStream os;
 	protected static ObjectOutputStream oos;
 	
+	private static InputStreamReader isr;
+	private static BufferedReader br;
+	
+	protected static String thisPlayersHandle;
+	
 	public DungeonsAndDragonsClient()
 	{
 	}
 	
 	public static void main(String[] argv) throws IOException, InterruptedException, ClassNotFoundException
 	{
+		isr = new InputStreamReader(System.in);
+		br = new BufferedReader(isr);
+		
+		System.out.println("Welcome to D&D! This is the test client. Also, the name will probably change.");
+		System.out.println("Please enter your name, brave warrior:");
+		setUpPlayer();
+		System.out.println("Thank you " + thisPlayersHandle + ". Please wait for connection.");
+		
 		try
 		{
-			s = new Socket("127.0.0.1", 54949);
+			s = new Socket("94.195.208.8", 54949);
 		}
 		catch (ConnectException e)
 		{
@@ -34,5 +47,10 @@ public class DungeonsAndDragonsClient {
 		}
 		
 		gameClient = new GameClient(s);
+	}
+	
+	public static void setUpPlayer() throws IOException
+	{
+		thisPlayersHandle = br.readLine();
 	}
 }

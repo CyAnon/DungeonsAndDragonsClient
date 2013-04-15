@@ -4,25 +4,19 @@ import java.io.*;
 import java.net.*;
 
 import com.cyanon.dandd.attacktype.*;
+import com.cyanon.dandd.networking.Packet;
+import com.cyanon.dandd.networking.ServerInfoPacket;
 
 public class GameClient {
-
-	private Attack test;
 	
 	public Socket socket;
 	private ObjectOutputStream oos;
 	private ObjectInputStream ois;
-	
-	private InputStreamReader isr;
-	private BufferedReader br;
-	
-	private String thisPlayersHandle;
-	private String thisGameName;
+
+	private ServerInfoPacket serverDetails;
 	
 	public GameClient(Socket socket) throws ClassNotFoundException, IOException {
 		this.socket = socket;
-		this.isr = new InputStreamReader(System.in);
-		this.br = new BufferedReader(isr);
 		
 		try
 		{
@@ -35,27 +29,25 @@ public class GameClient {
 			e.printStackTrace();
 		}
 		
-		this.thisGameName = (String)ois.readObject();
-		oos.flush();
-		System.out.println("Connected to the game " + this.thisGameName + " successfully!");
-	}
-	
-	public void writeToSocket() throws IOException, InterruptedException
-	{
-		test = new Attack("Frost Wind", 10, 10);
+		this.serverDetails = (ServerInfoPacket)ois.readObject(); //Migrate this to conditional check
 		
-		try {
-			oos.flush();
-			oos.writeObject(this.test);
-			oos.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		oos.flush();
+		System.out.println("Connected to the game " + this.serverDetails.getServerName() + " successfully!");
+		this.start();
 	}
 	
-	public void setUpPlayer() throws IOException
+	public void sendPacket() throws IOException, InterruptedException
 	{
-		this.thisPlayersHandle = br.readLine();
-		oos.writeObject(new String(this.thisPlayersHandle));
+		//Where a packet is created based on action
+	}
+	
+	public void receivePacket(Packet packetIn) throws IOException, NullPointerException, ClassNotFoundException
+	{
+		//Where a packet is broken down based on type
+	}
+	
+	private void start()
+	{
+
 	}
 }
