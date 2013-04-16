@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.*;
 
 import com.cyanon.dandd.attacktype.*;
+import com.cyanon.dandd.networking.ClientInfoPacket;
 import com.cyanon.dandd.networking.Packet;
 import com.cyanon.dandd.networking.ServerInfoPacket;
 
@@ -13,9 +14,9 @@ public class GameClient {
 	private ObjectOutputStream oos;
 	private ObjectInputStream ois;
 
-	private ServerInfoPacket serverDetails;
+	private ServerInfoPacket serverDetails; //Migrate to server details class?
 	
-	public GameClient(Socket socket) throws ClassNotFoundException, IOException {
+	public GameClient(Socket socket, String thisPlayersHandle) throws ClassNotFoundException, IOException {
 		this.socket = socket;
 		
 		try
@@ -30,8 +31,10 @@ public class GameClient {
 		}
 		
 		this.serverDetails = (ServerInfoPacket)ois.readObject(); //Migrate this to conditional check
-		
 		oos.flush();
+		oos.writeObject(new ClientInfoPacket(thisPlayersHandle)); 
+		oos.flush();
+		
 		System.out.println("Connected to the game " + this.serverDetails.getServerName() + " successfully!");
 		this.start();
 	}

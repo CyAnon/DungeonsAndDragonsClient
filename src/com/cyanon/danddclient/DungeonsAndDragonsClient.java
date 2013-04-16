@@ -34,7 +34,7 @@ public class DungeonsAndDragonsClient {
 		
 		try
 		{
-			s = new Socket("94.195.208.8", 54949);
+			s = new Socket("localhost", 54949);
 		}
 		catch (ConnectException e)
 		{
@@ -46,7 +46,7 @@ public class DungeonsAndDragonsClient {
 			e.printStackTrace();
 		}
 		
-		gameClient = new GameClient(s);
+		gameClient = new GameClient(s, thisPlayersHandle);
 	}
 	
 	public static void setUpPlayer() throws IOException
