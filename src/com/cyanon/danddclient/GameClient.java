@@ -16,6 +16,8 @@ public class GameClient {
 	
 	private static InputStreamReader isr;
 	private static BufferedReader br;
+	
+	private String parserDelimiter ="[ ]+";
 
 	private ServerInfoPacket serverDetails; //Migrate to server details class?
 	
@@ -57,8 +59,19 @@ public class GameClient {
 	
 	private void processCommand(String string)
 	{
-		if (string.equals("/quit"))
+		//Chop the string up into pieces, and deliver an angry message if this isn't possible, or the command is wrong
+		String[] parsedCommand = string.split(parserDelimiter);
+		
+		switch (parsedCommand[0])
+		{
+		case "/quit":
 			System.exit(0);
+			break;
+		default:
+			System.out.println("Error!");
+		}
+		
+		
 	}
 	
 	private void start() throws IOException
