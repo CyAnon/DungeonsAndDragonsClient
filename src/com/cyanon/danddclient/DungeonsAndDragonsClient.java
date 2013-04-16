@@ -17,6 +17,8 @@ public class DungeonsAndDragonsClient {
 	private static BufferedReader br;
 	
 	protected static String thisPlayersHandle;
+	private static String ipAddr;
+	private static int    ipPort;
 	
 	public DungeonsAndDragonsClient()
 	{
@@ -28,13 +30,11 @@ public class DungeonsAndDragonsClient {
 		br = new BufferedReader(isr);
 		
 		System.out.println("Welcome to D&D! This is the test client. Also, the name will probably change.");
-		System.out.println("Please enter your name, brave warrior:");
 		setUpPlayer();
-		System.out.println("Thank you " + thisPlayersHandle + ". Please wait for connection.");
-		
+				
 		try
 		{
-			s = new Socket("localhost", 54949);
+			s = new Socket(ipAddr, ipPort);
 		}
 		catch (ConnectException e)
 		{
@@ -51,6 +51,12 @@ public class DungeonsAndDragonsClient {
 	
 	public static void setUpPlayer() throws IOException
 	{
+		System.out.println("Please enter your name, brave warrior:");
 		thisPlayersHandle = br.readLine();
+		System.out.println("Thank you " + thisPlayersHandle + ". What's the server address:");
+		ipAddr = br.readLine();
+		System.out.println("Lastly, what port do you want to connect to:");
+		ipPort = Integer.parseInt(br.readLine());
+		System.out.println("Thanks again. Waiting to connect you...");
 	}
 }
