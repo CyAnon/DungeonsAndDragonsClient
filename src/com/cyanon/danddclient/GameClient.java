@@ -13,11 +13,17 @@ public class GameClient {
 	public Socket socket;
 	private ObjectOutputStream oos;
 	private ObjectInputStream ois;
+	
+	private static InputStreamReader isr;
+	private static BufferedReader br;
 
 	private ServerInfoPacket serverDetails; //Migrate to server details class?
 	
-	public GameClient(Socket socket, String thisPlayersHandle) throws ClassNotFoundException, IOException {
+	public GameClient(Socket socket, String thisPlayersHandle) throws ClassNotFoundException, IOException 
+	{
 		this.socket = socket;
+		isr = new InputStreamReader(System.in);
+		br = new BufferedReader(isr);
 		
 		try
 		{
@@ -49,8 +55,19 @@ public class GameClient {
 		//Where a packet is broken down based on type
 	}
 	
-	private void start()
+	private void processCommand(String string)
 	{
-
+		if (string.equals("/quit"))
+			System.exit(0);
+	}
+	
+	private void start() throws IOException
+	{
+		System.out.println("Welcome to the client interface! Enter your commands:");
+		while (true)
+		{
+			System.out.print("> ");
+			this.processCommand(br.readLine());
+		}
 	}
 }

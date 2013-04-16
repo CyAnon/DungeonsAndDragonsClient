@@ -38,7 +38,7 @@ public class DungeonsAndDragonsClient {
 		}
 		catch (ConnectException e)
 		{
-			System.out.println("No server found on this IP!");
+			System.out.println("Unable to connect to a server with these details! Check and try again.");
 			System.exit(-1);
 		}
 		catch (IOException e)
