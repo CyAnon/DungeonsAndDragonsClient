@@ -3,11 +3,7 @@ package com.cyanon.danddclient;
 import java.io.*;
 import java.net.*;
 
-import com.cyanon.dandd.attacktype.*;
-import com.cyanon.dandd.networking.ClientInfoPacket;
-import com.cyanon.dandd.networking.Packet;
-import com.cyanon.dandd.networking.ServerInfoPacket;
-import com.cyanon.dandd.networking.StringPacket;
+import com.cyanon.dandd.networking.*;
 
 public class GameClient {
 	
@@ -62,7 +58,6 @@ public class GameClient {
 	{
 		//Chop the string up into pieces, and deliver an angry message if this isn't possible, or the command is wrong
 		String[] parsedCommand = string.split(parserDelimiter);
-		int commandWords = parsedCommand.length;
 		
 		switch (parsedCommand[0])
 		{
@@ -70,12 +65,7 @@ public class GameClient {
 			System.exit(0);
 			break;
 		case "/message":
-			String fullMessage = " ";
-			for (int i = 1; i < parsedCommand.length; i++)
-			{
-				fullMessage += (parsedCommand[i] + " ");
-			}
-			oos.writeObject(new StringPacket(fullMessage));
+			oos.writeObject(new StringPacket(this.processMessage(parsedCommand)));
 			oos.flush();
 			break;
 		default:
@@ -91,5 +81,15 @@ public class GameClient {
 			System.out.print("> ");
 			this.processCommand(br.readLine());
 		}
+	}
+	
+	private String processMessage(String[] stringArray)
+	{
+		String fullMessage = " ";
+		for (int i = 1; i < stringArray.length; i++)
+		{
+			fullMessage += (stringArray[i] + " ");
+		}
+		return fullMessage;
 	}
 }
