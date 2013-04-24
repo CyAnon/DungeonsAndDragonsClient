@@ -14,6 +14,8 @@ public class GameClient {
 	private static InputStreamReader isr;
 	private static BufferedReader br;
 	
+	private UpdateChecker uc;
+	
 	private String parserDelimiter ="[ ]+";
 
 	private ServerInfoPacket serverDetails; //Migrate to server details class?
@@ -40,6 +42,9 @@ public class GameClient {
 		oos.writeObject(new ClientInfoPacket(thisPlayersHandle)); 
 		oos.flush();
 		
+		uc = new UpdateChecker(this, ois);
+		uc.start();
+		
 		System.out.println("Connected to the game " + this.serverDetails.getServerName() + " successfully!");
 		this.start();
 	}
@@ -51,7 +56,10 @@ public class GameClient {
 	
 	public void receivePacket(Packet packetIn) throws IOException, NullPointerException, ClassNotFoundException
 	{
-		//Where a packet is broken down based on type
+		if (packetIn instanceof ServerToClientMessagePacket)
+		{
+			System.out.println(packetIn.getPayload());
+		}
 	}
 	
 	private void processCommand(String string) throws IOException
@@ -91,5 +99,10 @@ public class GameClient {
 			fullMessage += (stringArray[i] + " ");
 		}
 		return fullMessage;
+	}
+	
+	public void printMessage(String string)
+	{
+		System.out.println(string);
 	}
 }
