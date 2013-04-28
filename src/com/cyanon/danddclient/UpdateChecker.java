@@ -2,6 +2,7 @@ package com.cyanon.danddclient;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.net.SocketException;
 
 import com.cyanon.dandd.networking.Packet;
 
@@ -30,8 +31,8 @@ public class UpdateChecker extends Thread {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("/n/n/nThe server has been shut down, and you have been disconnected.");
+				System.exit(-1);
 			}
 		}
 	}

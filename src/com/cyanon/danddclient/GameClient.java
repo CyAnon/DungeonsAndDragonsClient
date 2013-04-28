@@ -3,6 +3,8 @@ package com.cyanon.danddclient;
 import java.io.*;
 import java.net.*;
 
+import com.cyanon.dandd.attacktype.Attack;
+import com.cyanon.dandd.monsters.Monster;
 import com.cyanon.dandd.networking.*;
 
 public class GameClient {
@@ -20,9 +22,12 @@ public class GameClient {
 
 	private ServerInfoPacket serverDetails; //Migrate to server details class?
 	
-	public GameClient(Socket socket, String thisPlayersHandle) throws ClassNotFoundException, IOException 
+	private Monster myMonster;
+	
+	public GameClient(Socket socket, String thisPlayersHandle, Monster monster) throws ClassNotFoundException, IOException 
 	{
 		this.socket = socket;
+		this.myMonster = monster;
 		isr = new InputStreamReader(System.in);
 		br = new BufferedReader(isr);
 		
@@ -39,7 +44,7 @@ public class GameClient {
 		
 		this.serverDetails = (ServerInfoPacket)ois.readObject(); //Migrate this to conditional check
 		oos.flush();
-		oos.writeObject(new ClientInfoPacket(thisPlayersHandle)); 
+		oos.writeObject(new ClientInfoPacket(thisPlayersHandle, myMonster)); 
 		oos.flush();
 		
 		uc = new UpdateChecker(this, ois);
@@ -60,6 +65,10 @@ public class GameClient {
 		{
 			System.out.println(packetIn.getPayload());
 		}
+		if (packetIn instanceof AttackPacket)
+		{
+			myMonster.sufferAttack(((AttackPacket) packetIn).getPayload());
+		}
 	}
 	
 	private void processCommand(String string) throws IOException
@@ -74,11 +83,15 @@ public class GameClient {
 			break;
 		case "/message":
 			oos.writeObject(new StringPacket(this.processMessage(parsedCommand)));
-			oos.flush();
+			break;
+		case "/attack":
+//			Attack attack = new Attack(myMonster.getAttack(Integer.parseInt(parsedCommand[1])));
+			oos.writeObject(new AttackPacket(new Attack("Test Attack", 1, 1)));
 			break;
 		default:
 			System.out.println("Error!");
 		}
+		oos.flush();
 	}
 	
 	private void start() throws IOException

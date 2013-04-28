@@ -46,7 +46,8 @@ public class DungeonsAndDragonsClient {
 			e.printStackTrace();
 		}
 		
-		gameClient = new GameClient(s, thisPlayersHandle);
+		Hydra hydra = new Hydra(100);
+		gameClient = new GameClient(s, thisPlayersHandle, hydra);
 	}
 	
 	public static void setUpPlayer() throws IOException
