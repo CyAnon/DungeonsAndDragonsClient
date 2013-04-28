@@ -25,10 +25,8 @@ public class UpdateChecker extends Thread {
 			try {
 				myParent.receivePacket((Packet) ois.readObject());
 			} catch (NullPointerException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
 				System.out.println("/n/n/nThe server has been shut down, and you have been disconnected.");

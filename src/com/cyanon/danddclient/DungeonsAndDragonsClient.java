@@ -55,7 +55,7 @@ public class DungeonsAndDragonsClient {
 		System.out.println("Please enter your name, brave warrior:");
 		thisPlayersHandle = br.readLine();
 		System.out.println("Thank you " + thisPlayersHandle + ". What's the server address:");
-		ipAddr = br.readLine();
+		if ((ipAddr = br.readLine()) == "")
 		System.out.println("Lastly, what port do you want to connect to:");
 		ipPort = Integer.parseInt(br.readLine());
 		System.out.println("Thanks again. Waiting to connect you...");

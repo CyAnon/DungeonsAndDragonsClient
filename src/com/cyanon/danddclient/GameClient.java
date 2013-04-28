@@ -53,21 +53,12 @@ public class GameClient {
 		System.out.println("Connected to the game " + this.serverDetails.getServerName() + " successfully!");
 		this.start();
 	}
-	
-	public void sendPacket() throws IOException, InterruptedException
-	{
-		//Where a packet is created based on action
-	}
-	
+
 	public void receivePacket(Packet packetIn) throws IOException, NullPointerException, ClassNotFoundException
 	{
 		if (packetIn instanceof ServerToClientMessagePacket)
 		{
 			System.out.println(packetIn.getPayload());
-		}
-		if (packetIn instanceof AttackPacket)
-		{
-			myMonster.sufferAttack(((AttackPacket) packetIn).getPayload());
 		}
 	}
 	
@@ -85,8 +76,7 @@ public class GameClient {
 			oos.writeObject(new StringPacket(this.processMessage(parsedCommand)));
 			break;
 		case "/attack":
-//			Attack attack = new Attack(myMonster.getAttack(Integer.parseInt(parsedCommand[1])));
-			oos.writeObject(new AttackPacket(new Attack("Test Attack", 1, 1)));
+			oos.writeObject(new AttackPacket(myMonster.getAttack(Integer.parseInt(parsedCommand[1]))));
 			break;
 		default:
 			System.out.println("Error!");
@@ -99,8 +89,8 @@ public class GameClient {
 		System.out.println("Welcome to the client interface! Enter your commands:");
 		while (true)
 		{
-			System.out.print("> ");
 			this.processCommand(br.readLine());
+			System.out.print("> ");
 		}
 	}
 	
