@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.*;
 
 import com.cyanon.dandd.attacktype.Attack;
+import com.cyanon.dandd.gui.MainFrame;
 import com.cyanon.dandd.monsters.Monster;
 import com.cyanon.dandd.networking.*;
 
@@ -51,6 +52,7 @@ public class GameClient {
 		uc.start();
 		
 		System.out.println("Connected to the game " + this.serverDetails.getServerName() + " successfully!");
+		MainFrame mainFrame = new MainFrame(myMonster);
 		this.start();
 	}
 
