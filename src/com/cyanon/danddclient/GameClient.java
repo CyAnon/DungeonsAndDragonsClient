@@ -58,10 +58,11 @@ public class GameClient {
 
 	public void receivePacket(Packet packetIn) throws IOException, NullPointerException, ClassNotFoundException
 	{
-		if (packetIn instanceof ServerToClientMessagePacket)
+		if (packetIn.getString() != null)
 		{
-			System.out.println(packetIn.getPayload());
+			System.out.println(packetIn.getString());
 		}
+		//else handle attack
 	}
 	
 	private void processCommand(String string) throws IOException
@@ -75,10 +76,10 @@ public class GameClient {
 			System.exit(0);
 			break;
 		case "/message":
-			oos.writeObject(new StringPacket(this.processMessage(parsedCommand)));
+			oos.writeObject(new ClientToServerPacket(this.processMessage(parsedCommand)));
 			break;
 		case "/attack":
-			oos.writeObject(new AttackPacket(myMonster.getAttack(Integer.parseInt(parsedCommand[1]))));
+			oos.writeObject(new ClientToServerPacket(myMonster.getAttack(Integer.parseInt(parsedCommand[1]))));
 			break;
 		default:
 			System.out.println("Error!");
@@ -88,7 +89,7 @@ public class GameClient {
 	
 	private void start() throws IOException
 	{
-		System.out.println("Welcome to the client interface! Enter your commands:");
+		System.out.println("Welcome to the client interface! Enter your commands:"); //tick loop!
 		while (true)
 		{
 			this.processCommand(br.readLine());

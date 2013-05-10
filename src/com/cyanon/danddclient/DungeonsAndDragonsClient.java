@@ -20,6 +20,8 @@ public class DungeonsAndDragonsClient {
 	private static String ipAddr;
 	private static int    ipPort;
 	
+	private static float currentVersionNumber = 0.01f;
+	
 	public DungeonsAndDragonsClient()
 	{
 	}
@@ -29,7 +31,8 @@ public class DungeonsAndDragonsClient {
 		isr = new InputStreamReader(System.in);
 		br = new BufferedReader(isr);
 		
-		System.out.println("Welcome to D&D! This is the test client. Also, the name will probably change.");
+		System.out.println("Welcome to Packet Monsters! This is the test client (version " + currentVersionNumber + ").");
+		System.out.println("Fully open source at github.com/cyanon for your perusal. Released under CC.");
 		setUpPlayer();
 				
 		try
